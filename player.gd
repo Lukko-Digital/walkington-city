@@ -3,7 +3,8 @@ extends CharacterBody3D
 
 const MOUSE_SENSITIVITY = 0.001
 const SPEED = 5.0
-const JUMP_VELOCITY = 4.5
+const JUMP_VELOCITY = 8.0
+const CAMERA_ANGLE_LIMIT = 50
 
 var twist_input := 0.0
 var pitch_input := 0.0
@@ -17,7 +18,7 @@ func _ready():
 
 func _physics_process(delta):
 	if not is_on_floor():
-		velocity.y -= gravity * delta
+		velocity.y -= gravity * delta * 2
 
 	var input_dir = Input.get_vector("left", "right", "forward", "back")
 	var direction = (twist_pivot.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
@@ -37,8 +38,8 @@ func handle_camera():
 	pitch_pivot.rotate_x(pitch_input)
 	pitch_pivot.rotation.x = clamp(
 		pitch_pivot.rotation.x,
-		deg_to_rad(-30),
-		deg_to_rad(30)
+		deg_to_rad(-CAMERA_ANGLE_LIMIT),
+		deg_to_rad(CAMERA_ANGLE_LIMIT)
 	)
 	twist_input = 0
 	pitch_input = 0
