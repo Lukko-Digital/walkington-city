@@ -30,6 +30,9 @@ func _physics_process(delta):
 
 	move_and_slide()
 	
+	handle_camera()
+
+func handle_camera():
 	twist_pivot.rotate_y(twist_input)
 	pitch_pivot.rotate_x(pitch_input)
 	pitch_pivot.rotation.x = clamp(
@@ -37,7 +40,6 @@ func _physics_process(delta):
 		deg_to_rad(-30),
 		deg_to_rad(30)
 	)
-	
 	twist_input = 0
 	pitch_input = 0
 
