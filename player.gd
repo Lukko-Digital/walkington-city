@@ -1,7 +1,8 @@
 extends RigidBody3D
 
 const MOUSE_SENSITIVITY = 0.001
-const SPEED = 1800.0
+const SPEED = 1200.0
+const JUMP_FORCE = 400.0
 
 var twist_input := 0.0
 var pitch_input := 0.0
@@ -20,9 +21,6 @@ func _process(delta):
 	
 	apply_central_force(twist_pivot.basis * input * SPEED * delta)
 	
-	if Input.is_action_just_pressed("ui_cancel"):
-		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-	
 	twist_pivot.rotate_y(twist_input)
 	pitch_pivot.rotate_x(pitch_input)
 	pitch_pivot.rotation.x = clamp(
@@ -39,3 +37,7 @@ func _unhandled_input(event):
 		if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 			twist_input = -event.relative.x * MOUSE_SENSITIVITY
 			pitch_input = -event.relative.y * MOUSE_SENSITIVITY
+	elif event.is_action_pressed("jump"):
+		apply_central_force(Vector3.UP * JUMP_FORCE)
+	elif event.is_action_pressed("ui_cancel"):
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
