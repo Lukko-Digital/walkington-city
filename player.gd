@@ -53,10 +53,9 @@ func handle_camera():
 
 func throw_drill():
 	var instance = drill_scene.instantiate()
-	instance.position = global_position
-	instance.direction = -$TwistPivot/PitchPivot/Camera3D.global_transform.basis.z
-	#instance.direction.rotate_y(twist_pivot.rotation.y)
-	#instance.direction.rotate_x(pitch_pivot.rotation.x)
+	var camera_dir = -$TwistPivot/PitchPivot/Camera3D.global_transform.basis.z
+	instance.position = global_position# + camera_dir * 2
+	instance.direction = camera_dir
 	get_parent().add_child(instance)
 
 func _unhandled_input(event):
