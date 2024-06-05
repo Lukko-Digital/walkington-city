@@ -10,6 +10,8 @@ points = PackedVector3Array(0.5, 0.5, 1, 0.5, -0.5, 1, 0.5, 0.5, -1, -0.5, 0.5, 
 
 [node name="Drill" type="RigidBody3D"]
 collision_layer = 0
+max_contacts_reported = 1
+contact_monitor = true
 script = ExtResource("1_5j3n4")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
@@ -19,3 +21,5 @@ mesh = SubResource("BoxMesh_ci0el")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00432634, 0.0304309, -0.00869656)
 shape = SubResource("ConvexPolygonShape3D_yo1ot")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
