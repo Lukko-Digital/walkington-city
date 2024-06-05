@@ -2,6 +2,7 @@ extends CharacterBody3D
 
 
 const MOUSE_SENSITIVITY = 0.001
+const CONTROLLER_SENSITIVITY = 0.05
 const SPEED = 5.0
 const JUMP_VELOCITY = 8.0
 const CAMERA_ANGLE_LIMIT = 50
@@ -34,6 +35,9 @@ func _physics_process(delta):
 	handle_camera()
 
 func handle_camera():
+	#twist_input = Input.get_axis("look_right", "look_left") * CONTROLLER_SENSITIVITY
+	#pitch_input = Input.get_axis("look_down", "look_up") * CONTROLLER_SENSITIVITY * 0.5
+	
 	twist_pivot.rotate_y(twist_input)
 	pitch_pivot.rotate_x(pitch_input)
 	pitch_pivot.rotation.x = clamp(
