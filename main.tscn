@@ -1,7 +1,6 @@
-[gd_scene load_steps=11 format=3 uid="uid://c2cqsafxc5pue"]
+[gd_scene load_steps=10 format=3 uid="uid://c2cqsafxc5pue"]
 
 [ext_resource type="PackedScene" uid="uid://cc21yn41d2c1h" path="res://player.tscn" id="1_tck16"]
-[ext_resource type="PackedScene" uid="uid://nu7r2s2b8db8" path="res://drill.tscn" id="2_p5j66"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_l7lto"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -90,6 +89,3 @@ mesh = SubResource("BoxMesh_58bco")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Platforms/MeshInstance3D4/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_y8btx")
-
-[node name="Drill" parent="." instance=ExtResource("2_p5j66")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.64341, -8.48125)
