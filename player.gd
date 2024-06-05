@@ -6,6 +6,7 @@ const SPEED = 5.0
 const JUMP_VELOCITY = 8.0
 const CAMERA_ANGLE_LIMIT = 50
 
+var current_drill = null
 var twist_input := 0.0
 var pitch_input := 0.0
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -51,11 +52,19 @@ func handle_camera():
 	pitch_input = 0
 
 func throw_drill():
+	if current_drill:
+		return
 	var instance = drill_scene.instantiate()
 	var camera_dir = -$TwistPivot/PitchPivot/Camera3D.global_transform.basis.z
 	instance.position = global_position# + camera_dir * 2
 	instance.direction = camera_dir
 	get_parent().add_child(instance)
+	current_drill = instance
+
+func recall_drill():
+	if current_drill:
+		current_drill.queue_free()
+		current_drill = null
 
 func _unhandled_input(event):
 	if event is InputEventMouseMotion:
@@ -68,3 +77,5 @@ func _unhandled_input(event):
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	if event.is_action_pressed("throw"):
 		throw_drill()
+	if event.is_action_pressed("recall"):
+		recall_drill()
