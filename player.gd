@@ -11,6 +11,7 @@ var twist_input := 0.0
 var pitch_input := 0.0
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
+@onready var drill_scene = preload("res://drill.tscn")
 @onready var twist_pivot = $TwistPivot
 @onready var pitch_pivot = $TwistPivot/PitchPivot
 
@@ -47,7 +48,16 @@ func handle_camera():
 	)
 	twist_input = 0
 	pitch_input = 0
+	
+	#print($TwistPivot/PitchPivot/Camera3D.global_transform)
 
+func throw_drill():
+	var instance = drill_scene.instantiate()
+	instance.position = global_position
+	instance.direction = -$TwistPivot/PitchPivot/Camera3D.global_transform.basis.z
+	#instance.direction.rotate_y(twist_pivot.rotation.y)
+	#instance.direction.rotate_x(pitch_pivot.rotation.x)
+	get_parent().add_child(instance)
 
 func _unhandled_input(event):
 	if event is InputEventMouseMotion:
@@ -58,3 +68,5 @@ func _unhandled_input(event):
 		velocity.y = JUMP_VELOCITY
 	if event.is_action_pressed("ui_cancel"):
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	if event.is_action_pressed("throw"):
+		throw_drill()

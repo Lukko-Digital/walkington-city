@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://nu7r2s2b8db8"]
+
+[ext_resource type="Script" path="res://drill.gd" id="1_5j3n4"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_ci0el"]
+size = Vector3(1, 1, 2)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_yo1ot"]
+points = PackedVector3Array(0.5, 0.5, 1, 0.5, -0.5, 1, 0.5, 0.5, -1, -0.5, 0.5, 1, -0.5, -0.5, 1, 0.5, -0.5, -1, -0.5, 0.5, -1, -0.5, -0.5, -1)
+
+[node name="Drill" type="RigidBody3D"]
+collision_layer = 0
+script = ExtResource("1_5j3n4")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00432634, 0.0304309, -0.00869656)
+mesh = SubResource("BoxMesh_ci0el")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00432634, 0.0304309, -0.00869656)
+shape = SubResource("ConvexPolygonShape3D_yo1ot")
