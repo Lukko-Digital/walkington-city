@@ -1,26 +1,21 @@
-[gd_scene load_steps=4 format=3 uid="uid://faj74emqweym"]
+[gd_scene load_steps=2 format=3 uid="uid://faj74emqweym"]
 
 [ext_resource type="PackedScene" uid="uid://cc21yn41d2c1h" path="res://player.tscn" id="1_u85ei"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_ap3qn"]
-flip_faces = true
-size = Vector3(10, 10, 10)
-
-[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_6bon5"]
-data = PackedVector3Array(5, 5, 5, -5, 5, 5, -5, -5, 5, 5, -5, 5, 5, 5, 5, -5, -5, 5, -5, 5, -5, 5, 5, -5, 5, -5, -5, -5, -5, -5, -5, 5, -5, 5, -5, -5, 5, 5, -5, 5, 5, 5, 5, -5, 5, 5, -5, -5, 5, 5, -5, 5, -5, 5, -5, 5, 5, -5, 5, -5, -5, -5, -5, -5, -5, 5, -5, 5, 5, -5, -5, -5, -5, 5, 5, 5, 5, 5, 5, 5, -5, -5, 5, -5, -5, 5, 5, 5, 5, -5, 5, -5, 5, -5, -5, 5, -5, -5, -5, 5, -5, -5, 5, -5, 5, -5, -5, -5)
 
 [node name="Cave1" type="Node3D"]
 
 [node name="Player" parent="." instance=ExtResource("1_u85ei")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.91695, 0)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("BoxMesh_ap3qn")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
-shape = SubResource("ConcavePolygonShape3D_6bon5")
+[node name="walls" type="CSGBox3D" parent="."]
+use_collision = true
+flip_faces = true
+size = Vector3(10, 10, 10)
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 omni_range = 10.0
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.09556, 4.30196)
+use_collision = true
+size = Vector3(1, 1, 1.71143)
