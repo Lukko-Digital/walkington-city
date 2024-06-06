@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://cc21yn41d2c1h"]
 
-[ext_resource type="Script" path="res://player.gd" id="1_uemox"]
+[ext_resource type="Script" path="res://drill_player/player.gd" id="1_uemox"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_3diy6"]
 

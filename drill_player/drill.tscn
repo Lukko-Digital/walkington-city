@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://nu7r2s2b8db8"]
 
-[ext_resource type="Script" path="res://drill.gd" id="1_5j3n4"]
+[ext_resource type="Script" path="res://drill_player/drill.gd" id="1_5j3n4"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_ci0el"]
 size = Vector3(1, 1, 2)

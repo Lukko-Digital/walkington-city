@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://faj74emqweym"]
 
-[ext_resource type="PackedScene" uid="uid://cc21yn41d2c1h" path="res://player.tscn" id="1_u85ei"]
+[ext_resource type="PackedScene" uid="uid://cc21yn41d2c1h" path="res://drill_player/player.tscn" id="1_u85ei"]
 
 [node name="Cave1" type="Node3D"]
 
