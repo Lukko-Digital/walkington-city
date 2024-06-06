@@ -30,11 +30,7 @@ func _physics_process(delta):
 	move_and_slide()
 	if velocity.length() > 1.0:
 		model.rotation.y = lerp_angle(model.rotation.y, spring_arm.rotation.y, ROTATION_SPEED * delta)
-	if (
-		is_on_floor() and
-		Input.is_action_just_pressed("jump") and
-		anim_state.get_current_node() != "Jump_Land"
-	):
+	if is_on_floor() and Input.is_action_just_pressed("jump"):
 		velocity.y = JUMP_VELOCITY
 		jumping = true
 		anim_tree.set("parameters/conditions/jumping", true)
