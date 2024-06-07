@@ -13,8 +13,8 @@ const CAMERA = {
 	CONTROLLER_SENSITIVITY = 0.05,
 	CONTROLLER_ACCELERATION = 6.0,
 	# Speed that camera looks in player's direction when walking
-	HORIZONTAL_TRACK_SPEED = 0.5,
-	VERTICAL_TRACK_SPEED = 1,
+	HORIZONTAL_TRACK_SPEED = 0.4,
+	VERTICAL_TRACK_SPEED = 0.5,
 	# Time between last mouse movement and start of camera tracking
 	TRACK_DELAY = 0.3,
 	# Speed that camera zooms in when camera moves
