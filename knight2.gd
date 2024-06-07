@@ -9,8 +9,9 @@ const CAMERA = {
 	MIN_LENGTH = 2.0,
 	HIGHEST_ANGLE = -90.0,
 	LOWEST_ANGLE = 30.0,
-	# Sensitivity for mouse movement
-	SENSITIVITY = 0.0015,
+	MOUSE_SENSITIVITY = 0.0015,
+	CONTROLLER_SENSITIVITY = 0.05,
+	CONTROLLER_ACCELERATION = 6.0,
 	# Speed that camera looks in player's direction when walking
 	HORIZONTAL_TRACK_SPEED = 0.5,
 	VERTICAL_TRACK_SPEED = 1,
@@ -32,10 +33,15 @@ var jumping: bool:
 	set(value):
 		anim_tree.set("parameters/conditions/jumping", value)
 		jumping = value
+var cam_rotation_velocity = Vector2.ZERO
 
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	cam_move_timer.wait_time = CAMERA.TRACK_DELAY
+
+func _process(delta):
+	if not Input.get_connected_joypads().is_empty():
+		controller_camera_control(delta)
 
 func _physics_process(delta):
 	handle_gravity(delta)
@@ -44,6 +50,17 @@ func _physics_process(delta):
 	move_and_slide()
 	handle_airborne_animations()
 	camera_zoom_out(delta)
+
+func controller_camera_control(delta):
+	var controller_input = Input.get_vector("look_down", "look_up", "look_right", "look_left")
+	if controller_input:
+		cam_move_timer.start()
+	cam_rotation_velocity = cam_rotation_velocity.lerp(
+		controller_input * CAMERA.CONTROLLER_SENSITIVITY,
+		CAMERA.CONTROLLER_ACCELERATION * delta
+	)
+	camera_arm.rotation.x += cam_rotation_velocity.x
+	camera_arm.rotation.y += cam_rotation_velocity.y
 
 func handle_gravity(delta):
 	velocity.y -= gravity * delta * 2
@@ -83,7 +100,7 @@ func camera_zoom_out(delta):
 func _unhandled_input(event):
 	if event is InputEventMouseMotion:
 		cam_move_timer.start()
-		camera_arm.rotation.x -= event.relative.y * CAMERA.SENSITIVITY
+		camera_arm.rotation.x -= event.relative.y * CAMERA.MOUSE_SENSITIVITY
 		camera_arm.rotation_degrees.x = clamp(camera_arm.rotation_degrees.x, CAMERA.HIGHEST_ANGLE, CAMERA.LOWEST_ANGLE)
-		camera_arm.rotation.y -= event.relative.x * CAMERA.SENSITIVITY
+		camera_arm.rotation.y -= event.relative.x * CAMERA.MOUSE_SENSITIVITY
 		camera_arm.spring_length = lerp(camera_arm.spring_length, CAMERA.MIN_LENGTH, event.relative.length() * CAMERA.MOVEMENT_ZOOM_SPEED)
