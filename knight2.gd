@@ -39,6 +39,9 @@ func handle_walk(delta):
 	anim_tree.set("parameters/IdleWalk/blend_position", velocity.length() / SPEED)
 	# Rotate model to face walking direction
 	model.rotation.y = lerp_angle(model.rotation.y, atan2( - velocity.x, -velocity.z), ROTATION_SPEED * delta)
+	# If moving, camera moves to point in walking direction
+	if dir:
+		camera_track(delta)
 
 func handle_jump():
 	if is_on_floor() and Input.is_action_just_pressed("jump"):
@@ -52,6 +55,10 @@ func handle_airborne_animations():
 	# Check if airborne and not jumping, e.g. walking off a ledge
 	elif not jumping:
 		anim_state.travel("Jump_Idle")
+
+func camera_track(delta):
+	camera_arm.rotation.y = move_toward(camera_arm.rotation.y, model.rotation.y, 0.2 * delta)
+	camera_arm.rotation.x = move_toward(camera_arm.rotation.x, 0, 0.1 * delta)
 
 func _unhandled_input(event):
 	if event is InputEventMouseMotion:
