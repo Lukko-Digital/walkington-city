@@ -61,6 +61,7 @@ func controller_camera_control(delta):
 	)
 	camera_arm.rotation.x += cam_rotation_velocity.x
 	camera_arm.rotation.y += cam_rotation_velocity.y
+	camera_arm.rotation_degrees.x = clamp(camera_arm.rotation_degrees.x, CAMERA.HIGHEST_ANGLE, CAMERA.LOWEST_ANGLE)
 
 func handle_gravity(delta):
 	velocity.y -= gravity * delta * 2
