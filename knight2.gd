@@ -4,7 +4,19 @@ const SPEED = 5.0
 const ACCELERATION = 4.0
 const JUMP_VELOCITY = 10.0
 const ROTATION_SPEED = 12.0
-const MOUSE_SENSITIVITY = 0.0015
+const CAMERA = {
+	MAX_LENGTH = 7.0,
+	MIN_LENGTH = 2.0,
+	HIGHEST_ANGLE = -90.0,
+	LOWEST_ANGLE = 30.0,
+	# Sensitivity for mouse movement
+	SENSITIVITY = 0.0015,
+	# Speed that camera looks in player's direction when walking
+	HORIZONTAL_TRACK_SPEED = 1,
+	VERTICAL_TRACK_SPEED = 1,
+	# Speed that camera zooms in when camera moves
+	MOVEMENT_ZOOM_SPEED = 0.001
+}
 
 @onready var camera_arm = $CameraArm
 @onready var model = $Rig
@@ -58,15 +70,15 @@ func handle_airborne_animations():
 		anim_state.travel("Jump_Idle")
 
 func camera_track(delta):
-	camera_arm.rotation.y = lerp_angle(camera_arm.rotation.y, model.rotation.y, delta)
-	camera_arm.rotation.x = lerp_angle(camera_arm.rotation.x, 0.0, delta)
+	camera_arm.rotation.y = lerp_angle(camera_arm.rotation.y, model.rotation.y, CAMERA.HORIZONTAL_TRACK_SPEED * delta)
+	camera_arm.rotation.x = lerp_angle(camera_arm.rotation.x, 0.0, CAMERA.VERTICAL_TRACK_SPEED * delta)
 
 func camera_zoom_out(delta):
-	camera_arm.spring_length = lerp(camera_arm.spring_length, 7.0, delta)
+	camera_arm.spring_length = lerp(camera_arm.spring_length, CAMERA.MAX_LENGTH, delta)
 
 func _unhandled_input(event):
 	if event is InputEventMouseMotion:
-		camera_arm.rotation.x -= event.relative.y * MOUSE_SENSITIVITY
-		camera_arm.rotation_degrees.x = clamp(camera_arm.rotation_degrees.x, -90.0, 30.0)
-		camera_arm.rotation.y -= event.relative.x * MOUSE_SENSITIVITY
-		camera_arm.spring_length = lerp(camera_arm.spring_length, 2.0, event.relative.length() * 0.001)
+		camera_arm.rotation.x -= event.relative.y * CAMERA.SENSITIVITY
+		camera_arm.rotation_degrees.x = clamp(camera_arm.rotation_degrees.x, CAMERA.HIGHEST_ANGLE, CAMERA.LOWEST_ANGLE)
+		camera_arm.rotation.y -= event.relative.x * CAMERA.SENSITIVITY
+		camera_arm.spring_length = lerp(camera_arm.spring_length, CAMERA.MIN_LENGTH, event.relative.length() * CAMERA.MOVEMENT_ZOOM_SPEED)
