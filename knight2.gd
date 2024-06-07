@@ -18,18 +18,24 @@ func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func _physics_process(delta):
-	handle_movement(delta)
+	handle_gravity(delta)
+	handle_walk(delta)
+	handle_jump()
+	move_and_slide()
 
-func handle_movement(delta):
+func handle_gravity(delta):
 	velocity.y -= gravity * delta
+
+func handle_walk(delta):
 	var input = Input.get_vector("left", "right", "forward", "back")
 	var dir = Vector3(input.x, 0, input.y).rotated(Vector3.UP, camera_arm.rotation.y)
 	velocity = velocity.lerp(dir * SPEED, ACCELERATION * delta)
-
 	anim_tree.set("parameters/IdleWalk/blend_position", velocity.length() / SPEED)
-	move_and_slide()
-
+	# Rotate model to face walking direction
 	model.rotation.y = lerp_angle(model.rotation.y, atan2(-velocity.x, -velocity.z), ROTATION_SPEED * delta)
+
+func handle_jump():
+	pass
 
 func _unhandled_input(event):
 	if event is InputEventMouseMotion:
