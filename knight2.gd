@@ -3,16 +3,21 @@ extends CharacterBody3D
 
 const SPEED = 5.0
 const ACCELERATION = 4.0
-const JUMP_VELOCITY = 4.5
+const JUMP_VELOCITY = 10.0
 const ROTATION_SPEED = 12.0
 const MOUSE_SENSITIVITY = 0.0015
-
-var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 @onready var camera_arm = $CameraArm
 @onready var model = $Rig
 @onready var anim_tree = $AnimationTree
 @onready var anim_state: AnimationNodeStateMachinePlayback = $AnimationTree.get("parameters/playback")
+
+var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
+var previously_airborne = true
+var jumping: bool:
+	set(value):
+		anim_tree.set("parameters/conditions/jumping", value)
+		jumping = value
 
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -22,20 +27,33 @@ func _physics_process(delta):
 	handle_walk(delta)
 	handle_jump()
 	move_and_slide()
+	handle_airborne_animations()
 
 func handle_gravity(delta):
-	velocity.y -= gravity * delta
+	velocity.y -= gravity * delta * 2
 
 func handle_walk(delta):
 	var input = Input.get_vector("left", "right", "forward", "back")
 	var dir = Vector3(input.x, 0, input.y).rotated(Vector3.UP, camera_arm.rotation.y)
-	velocity = velocity.lerp(dir * SPEED, ACCELERATION * delta)
+	velocity.x = lerp(velocity.x, dir.x * SPEED, ACCELERATION * delta)
+	velocity.z = lerp(velocity.z, dir.z * SPEED, ACCELERATION * delta)
 	anim_tree.set("parameters/IdleWalk/blend_position", velocity.length() / SPEED)
 	# Rotate model to face walking direction
 	model.rotation.y = lerp_angle(model.rotation.y, atan2(-velocity.x, -velocity.z), ROTATION_SPEED * delta)
 
 func handle_jump():
-	pass
+	if is_on_floor() and Input.is_action_just_pressed("jump"):
+		velocity.y = JUMP_VELOCITY
+		jumping = true
+
+func handle_airborne_animations():
+	anim_tree.set("parameters/conditions/grounded", is_on_floor())
+	if is_on_floor():
+		jumping = false
+	elif not jumping:
+		anim_state.travel("Jump_Idle")
+
+
 
 func _unhandled_input(event):
 	if event is InputEventMouseMotion:
