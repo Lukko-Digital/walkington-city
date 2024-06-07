@@ -27,6 +27,7 @@ func _physics_process(delta):
 	handle_jump()
 	move_and_slide()
 	handle_airborne_animations()
+	#print(camera_arm.rotation.y, " | ", model.rotation.y)
 
 func handle_gravity(delta):
 	velocity.y -= gravity * delta * 2
@@ -57,8 +58,8 @@ func handle_airborne_animations():
 		anim_state.travel("Jump_Idle")
 
 func camera_track(delta):
-	camera_arm.rotation.y = move_toward(camera_arm.rotation.y, model.rotation.y, 0.2 * delta)
-	camera_arm.rotation.x = move_toward(camera_arm.rotation.x, 0, 0.1 * delta)
+	camera_arm.rotation.y = lerp_angle(camera_arm.rotation.y, model.rotation.y, delta)
+	camera_arm.rotation.x = lerp_angle(camera_arm.rotation.x, 0.0, delta)
 
 func _unhandled_input(event):
 	if event is InputEventMouseMotion:
