@@ -1,6 +1,6 @@
-[gd_scene load_steps=10 format=3 uid="uid://c2cqsafxc5pue"]
+[gd_scene load_steps=10 format=3 uid="uid://cc516ftgq2ghs"]
 
-[ext_resource type="PackedScene" uid="uid://hxn4lucghc74" path="res://knight2.tscn" id="1_vl3o0"]
+[ext_resource type="PackedScene" uid="uid://c7w2wtinyiadj" path="res://tutorial_knight/knight.tscn" id="1_q3myo"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_l7lto"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -86,4 +86,4 @@ mesh = SubResource("BoxMesh_58bco")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Platforms/MeshInstance3D4/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_y8btx")
 
-[node name="Knight2" parent="." instance=ExtResource("1_vl3o0")]
+[node name="Knight" parent="." instance=ExtResource("1_q3myo")]
