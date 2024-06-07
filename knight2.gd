@@ -1,6 +1,5 @@
 extends CharacterBody3D
 
-
 const SPEED = 5.0
 const ACCELERATION = 4.0
 const JUMP_VELOCITY = 10.0
@@ -39,7 +38,7 @@ func handle_walk(delta):
 	velocity.z = lerp(velocity.z, dir.z * SPEED, ACCELERATION * delta)
 	anim_tree.set("parameters/IdleWalk/blend_position", velocity.length() / SPEED)
 	# Rotate model to face walking direction
-	model.rotation.y = lerp_angle(model.rotation.y, atan2(-velocity.x, -velocity.z), ROTATION_SPEED * delta)
+	model.rotation.y = lerp_angle(model.rotation.y, atan2( - velocity.x, -velocity.z), ROTATION_SPEED * delta)
 
 func handle_jump():
 	if is_on_floor() and Input.is_action_just_pressed("jump"):
@@ -50,10 +49,9 @@ func handle_airborne_animations():
 	anim_tree.set("parameters/conditions/grounded", is_on_floor())
 	if is_on_floor():
 		jumping = false
+	# Check if airborne and not jumping, e.g. walking off a ledge
 	elif not jumping:
 		anim_state.travel("Jump_Idle")
-
-
 
 func _unhandled_input(event):
 	if event is InputEventMouseMotion:
