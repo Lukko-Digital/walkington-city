@@ -12,8 +12,10 @@ const CAMERA = {
 	# Sensitivity for mouse movement
 	SENSITIVITY = 0.0015,
 	# Speed that camera looks in player's direction when walking
-	HORIZONTAL_TRACK_SPEED = 1,
+	HORIZONTAL_TRACK_SPEED = 0.5,
 	VERTICAL_TRACK_SPEED = 1,
+	# Time between last mouse movement and start of camera tracking
+	TRACK_DELAY = 0.3,
 	# Speed that camera zooms in when camera moves
 	MOVEMENT_ZOOM_SPEED = 0.001
 }
@@ -22,6 +24,7 @@ const CAMERA = {
 @onready var model = $Rig
 @onready var anim_tree = $AnimationTree
 @onready var anim_state: AnimationNodeStateMachinePlayback = $AnimationTree.get("parameters/playback")
+@onready var cam_move_timer: Timer = $CameraMovementTimer
 
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 var previously_airborne = true
@@ -32,6 +35,7 @@ var jumping: bool:
 
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	cam_move_timer.wait_time = CAMERA.TRACK_DELAY
 
 func _physics_process(delta):
 	handle_gravity(delta)
@@ -53,7 +57,7 @@ func handle_walk(delta):
 	# Rotate model to face walking direction
 	model.rotation.y = lerp_angle(model.rotation.y, atan2( - velocity.x, -velocity.z), ROTATION_SPEED * delta)
 	# If moving, camera moves to point in walking direction
-	if dir:
+	if dir and cam_move_timer.is_stopped():
 		camera_track(delta)
 
 func handle_jump():
@@ -78,6 +82,7 @@ func camera_zoom_out(delta):
 
 func _unhandled_input(event):
 	if event is InputEventMouseMotion:
+		cam_move_timer.start()
 		camera_arm.rotation.x -= event.relative.y * CAMERA.SENSITIVITY
 		camera_arm.rotation_degrees.x = clamp(camera_arm.rotation_degrees.x, CAMERA.HIGHEST_ANGLE, CAMERA.LOWEST_ANGLE)
 		camera_arm.rotation.y -= event.relative.x * CAMERA.SENSITIVITY
