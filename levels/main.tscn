@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://c2cqsafxc5pue"]
 
-[ext_resource type="PackedScene" uid="uid://hxn4lucghc74" path="res://knight2.tscn" id="1_vl3o0"]
+[ext_resource type="PackedScene" uid="uid://c6p338xu3nhw6" path="res://char_2.tscn" id="1_g3ibx"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_l7lto"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -91,8 +91,6 @@ mesh = SubResource("BoxMesh_58bco")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Platforms/MeshInstance3D4/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_y8btx")
 
-[node name="Knight2" parent="." instance=ExtResource("1_vl3o0")]
-
 [node name="Spires" type="Node" parent="."]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Spires"]
@@ -110,3 +108,5 @@ mesh = SubResource("CylinderMesh_qbyfj")
 [node name="MeshInstance3D4" type="MeshInstance3D" parent="Spires"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, -20)
 mesh = SubResource("CylinderMesh_qbyfj")
+
+[node name="Char2" parent="." instance=ExtResource("1_g3ibx")]

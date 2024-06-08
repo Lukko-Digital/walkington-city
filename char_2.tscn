@@ -1,0 +1,57 @@
+[gd_scene load_steps=5 format=3 uid="uid://c6p338xu3nhw6"]
+
+[ext_resource type="PackedScene" uid="uid://bxojfksd1lq5o" path="res://assets/Char2.glb" id="1_xs2be"]
+[ext_resource type="Script" path="res://char_2.gd" id="2_nqgox"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mvbto"]
+height = 2.4
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_5s5lr"]
+
+[node name="Char2" instance=ExtResource("1_xs2be")]
+script = ExtResource("2_nqgox")
+
+[node name="Armature" parent="." index="0"]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 1.04174, -0.104261)
+
+[node name="Skeleton3D" parent="Armature" index="0"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+bones/0/position = Vector3(-4.04521e-08, -0.148121, 0.758701)
+bones/0/rotation = Quaternion(-0.0617955, -0.11446, -0.00713394, 0.991478)
+bones/1/rotation = Quaternion(0.107536, 0.13851, 0.00177883, 0.984504)
+bones/1/scale = Vector3(1, 1, 1)
+bones/2/position = Vector3(-1.20913e-09, 1.88921, 0.0289115)
+bones/2/rotation = Quaternion(0.0868298, -0.0343633, 0.00833711, 0.995596)
+bones/3/rotation = Quaternion(0.735759, 0.241413, 0.604199, 0.187942)
+bones/3/scale = Vector3(0.999999, 1, 0.999998)
+bones/4/rotation = Quaternion(-0.0555665, 0.0215739, 0.547435, 0.834723)
+bones/4/scale = Vector3(1, 1, 1)
+bones/5/rotation = Quaternion(-0.580364, -0.170603, 0.783322, 0.143105)
+bones/5/scale = Vector3(1, 1, 0.999998)
+bones/6/rotation = Quaternion(-0.000394495, 0.00230732, -0.00374692, 0.99999)
+bones/6/scale = Vector3(1, 1, 1)
+bones/7/position = Vector3(-0.355303, -3.55906, -0.490026)
+bones/8/rotation = Quaternion(0.0862711, -2.10878e-08, 0.996272, 1.31798e-09)
+bones/8/scale = Vector3(1, 1, 1)
+bones/9/position = Vector3(0.358674, -3.17234, 0.965568)
+bones/9/rotation = Quaternion(0.489428, -0.510353, 0.510353, -0.489428)
+bones/10/rotation = Quaternion(-0.0862711, -2.10878e-08, 0.996272, -1.31798e-09)
+bones/10/scale = Vector3(1, 1, 1)
+
+[node name="AnimationPlayer" parent="." index="1"]
+autoplay = "Walk"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+shape = SubResource("CapsuleShape3D_mvbto")
+
+[node name="CameraArm" type="SpringArm3D" parent="." index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+shape = SubResource("SphereShape3D_5s5lr")
+spring_length = 7.0
+margin = 0.1
+
+[node name="Camera3D" type="Camera3D" parent="CameraArm" index="0"]
+
+[node name="CameraMovementTimer" type="Timer" parent="." index="4"]
+one_shot = true
